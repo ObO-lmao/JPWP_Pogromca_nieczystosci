@@ -1,9 +1,11 @@
 package Main;
 
 import Rzeczy.Smieciarka;
+import pole.AdminPola;
 
 import javax.swing.JPanel;
 import java.awt.*;
+
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -12,18 +14,17 @@ public class GamePanel extends JPanel implements Runnable {
     final int skalowanie = 3;
 
     public final int rozmiar_pola = org_rozmiar_pola * skalowanie; // 48x48
-    final int max_kolumna = 20;
-    final int max_szereg = 16;
+    public final int max_kolumna = 20;
+    public final int max_szereg = 16;
     final int szerokosc = rozmiar_pola * max_kolumna; // 960px
     final int dlugosc = rozmiar_pola * max_szereg; // 768px
 
     int FPS = 60;
+    AdminPola AdminP = new AdminPola(this);
     Klawiatura keyH = new Klawiatura();
     Thread gameThread;
     Smieciarka smieciarka = new Smieciarka(this, keyH);
-    int graczX= 100;
-    int graczY= 100;
-    int szybkosc_gracza = 4;
+
 
     public GamePanel () {
 
@@ -81,6 +82,8 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
+
+        AdminP.draw(g2);
 
         smieciarka.draw(g2);
 
