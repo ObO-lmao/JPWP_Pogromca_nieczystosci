@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
     AdminPola AdminP = new AdminPola(this);
     Klawiatura keyH = new Klawiatura();
     Thread gameThread;
+    public Kontroler_kolizji kontroler = new Kontroler_kolizji(this);
     Smieciarka smieciarka = new Smieciarka(this, keyH);
 
 

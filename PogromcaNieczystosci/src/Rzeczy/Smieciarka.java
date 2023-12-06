@@ -2,6 +2,7 @@ package Rzeczy;
 
 import Main.GamePanel;
 import Main.Klawiatura;
+import pole.Pole;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,6 +19,10 @@ public class Smieciarka extends Rzecz {
 
         this.gp = gp;
         this.keyH= keyH;
+
+        Pole_kolizji = new Rectangle(6,12, 39, 27);
+
+
         Parametry_podstawowe();
         obrazki_smieciarki();
     }
@@ -46,25 +51,53 @@ public class Smieciarka extends Rzecz {
 
         if(keyH.W_pressed == true) {
             kierunek = "góra";
-            y -= szybkosc;
+
         }
         else if(keyH.S_pressed == true){
             kierunek = "dół";
-            y += szybkosc;
+
         }
         else if(keyH.A_pressed == true){
             kierunek = "lewo";
-            x -= szybkosc;
+
         }
         else if(keyH.D_pressed == true){
             kierunek = "prawo";
-            x += szybkosc;
+
+        }
+        kolizja_działa = false;
+        gp.kontroler.SprawdzPiksel(this);
+
+        if(kolizja_działa == false){
+
+            switch(kierunek){
+                case "góra":
+                    if(keyH.W_pressed == true) {
+                        y -= szybkosc;
+                    }
+                    break;
+                case "dół":
+                    if(keyH.S_pressed == true) {
+                        y += szybkosc;
+                    }
+                    break;
+                case "lewo":
+                    if(keyH.A_pressed == true) {
+                        x -= szybkosc;
+                    }
+                    break;
+                case "prawo":
+                    if(keyH.D_pressed == true) {
+                        x += szybkosc;
+                    }
+                    break;
+
+
+            }
         }
     }
     public void draw(Graphics2D g2) {
 
-        //g2.setColor(Color.white);
-        //g2.fillRect(x, y, gp.rozmiar_pola, gp.rozmiar_pola);
 
         BufferedImage image = null;
 

@@ -1,12 +1,18 @@
 package Rzeczy;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Rzecz {
 
     public int x,y;
-    public int szybkosc;
+    public static int szybkosc;
 
     public BufferedImage W,S,A,D;
-    public String kierunek;
+    public static String kierunek;
+    public static Rectangle Pole_kolizji;
+    public static boolean kolizja_działa = false;
+
+
+
 }

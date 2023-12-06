@@ -13,8 +13,8 @@ import java.io.InputStreamReader;
 public class AdminPola {
 
     GamePanel gp;
-    Pole[] pole;
-    int MapaNumerPola[][];
+    public Pole[] pole;
+    public int MapaNumerPola[][];
 
     public AdminPola (GamePanel gp) {
 
@@ -35,8 +35,10 @@ public class AdminPola {
             pole[0].image = ImageIO.read(getClass().getResourceAsStream("/pola/droga.png"));
             pole[1] = new Pole ();
             pole[1].image = ImageIO.read(getClass().getResourceAsStream("/pola/dziedzictwo_narodowe_pierwszego_sekretarza_gierka.png"));
+            pole[1].kolizja = true;
             pole[2] = new Pole ();
             pole[2].image = ImageIO.read(getClass().getResourceAsStream("/pola/fundament_ziemskiego_ekosystemu.png"));
+            pole[2].kolizja = true;
 
         }catch(IOException e){
             e.printStackTrace();
