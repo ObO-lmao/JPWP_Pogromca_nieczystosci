@@ -1,5 +1,6 @@
 package Main;
 
+import Pojemniki.Pojemnik;
 import Rzeczy.Smieciarka;
 import pole.AdminPola;
 
@@ -24,7 +25,9 @@ public class GamePanel extends JPanel implements Runnable {
     Klawiatura keyH = new Klawiatura();
     Thread gameThread;
     public Kontroler_kolizji kontroler = new Kontroler_kolizji(this);
+    public Rozmieszczacz_pojemnikow Mieczysław = new Rozmieszczacz_pojemnikow(this);
     Smieciarka smieciarka = new Smieciarka(this, keyH);
+    public Pojemnik Poj[]= new Pojemnik[10];
 
 
     public GamePanel () {
@@ -35,6 +38,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
+    }
+
+    public void Rozmiesczenie_pojemnikow() {
+        Mieczysław.Ustaw_Pojemnik();
     }
     public void startGameThread() {
 
@@ -86,6 +93,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         AdminP.draw(g2);
 
+        for (int i = 0; i <  Poj.length; i++){
+            if (Poj[i] != null) {
+                Poj[i].draw(g2,this);
+            }
+        }
         smieciarka.draw(g2);
 
         g2.dispose();

@@ -61,4 +61,19 @@ public class Kontroler_kolizji {
         }
 
     }
+    public int SprawdzPojemnik(Rzecz rzecz, boolean Smieciarka){
+
+        int znacznik = 999;
+
+        for (int i = 0; i < gp.Poj.length; i++){
+
+            if(gp.Poj[i] != null){
+
+                Rzecz.Pole_kolizji.x = Rzecz.x + Rzecz.Pole_kolizji.x;
+
+            }
+        }
+
+        return znacznik;
+    }
 }

@@ -21,6 +21,8 @@ public class Smieciarka extends Rzecz {
         this.keyH= keyH;
 
         Pole_kolizji = new Rectangle(6,12, 39, 27);
+        Pole_kolizji_X_domyslny = Pole_kolizji.x;
+        Pole_kolizji_Y_domyslny = Pole_kolizji.y;
 
 
         Parametry_podstawowe();
