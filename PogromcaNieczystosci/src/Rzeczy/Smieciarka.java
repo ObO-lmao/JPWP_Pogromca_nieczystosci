@@ -13,6 +13,9 @@ public class Smieciarka extends Rzecz {
 
     GamePanel gp;
     Klawiatura keyH;
+    int papier = 0;
+    int plastik = 0;
+    int szklo = 0;
 
 
     public Smieciarka(GamePanel gp, Klawiatura keyH) {
@@ -70,6 +73,9 @@ public class Smieciarka extends Rzecz {
         kolizja_działa = false;
         gp.kontroler.SprawdzPiksel(this);
 
+        int Pojemnik_Znacznik = gp.kontroler.SprawdzPojemnik(this, true);
+        Podnies_pojemnik(Pojemnik_Znacznik);
+
         if(kolizja_działa == false){
 
             switch(kierunek){
@@ -97,6 +103,30 @@ public class Smieciarka extends Rzecz {
 
             }
         }
+    }
+    public void Podnies_pojemnik (int i){
+
+        if(i != 999 ) {
+
+            String Rodzaj_pojemnika = gp.Poj[i].nazwa;
+
+            switch(Rodzaj_pojemnika){
+                case "papier":
+                    papier++;
+                    gp.Poj[i]= null;
+                    break;
+                case "szklo":
+                    szklo++;
+                    gp.Poj[i]= null;
+                    break;
+                case "plastik":
+                    plastik++;
+                    gp.Poj[i]= null;
+                    break;
+
+            }
+        }
+
     }
     public void draw(Graphics2D g2) {
 

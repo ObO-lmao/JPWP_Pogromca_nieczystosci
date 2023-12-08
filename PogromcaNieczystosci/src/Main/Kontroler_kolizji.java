@@ -70,6 +70,71 @@ public class Kontroler_kolizji {
             if(gp.Poj[i] != null){
 
                 Rzecz.Pole_kolizji.x = Rzecz.x + Rzecz.Pole_kolizji.x;
+                Rzecz.Pole_kolizji.y= Rzecz.y + Rzecz.Pole_kolizji.y;
+
+                gp.Poj[i].Pole_kolizji.x = gp.Poj[i].x + gp.Poj[i].Pole_kolizji.x;
+                gp.Poj[i].Pole_kolizji.y = gp.Poj[i].y + gp.Poj[i].Pole_kolizji.y;
+
+                switch(Rzecz.kierunek){
+                    case "góra":
+                        Rzecz.Pole_kolizji.y -= Rzecz.szybkosc;
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
+                            if(gp.Poj[i].kolizja == true) {
+                                Rzecz.kolizja_działa = true;
+                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                            }
+                            if(Smieciarka == true){
+                                znacznik =i;
+                            }
+                            break;
+                        }
+
+
+                    case "dół":
+                        Rzecz.Pole_kolizji.y += Rzecz.szybkosc;
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
+                            if(gp.Poj[i].kolizja == true) {
+                                Rzecz.kolizja_działa = true;
+                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                            }
+                            if(Smieciarka == true){
+                                znacznik =i;
+                            }
+                            break;
+                        }
+
+                    case "lewo":
+                        Rzecz.Pole_kolizji.x -= Rzecz.szybkosc;
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
+                            if(gp.Poj[i].kolizja == true) {
+                                Rzecz.kolizja_działa = true;
+                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                            }
+                            if(Smieciarka == true){
+                                znacznik =i;
+                            }
+                            break;
+                        }
+
+                    case "prawo":
+                        Rzecz.Pole_kolizji.x += Rzecz.szybkosc;
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
+                            if(gp.Poj[i].kolizja == true) {
+                                Rzecz.kolizja_działa = true;
+                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                            }
+                            if(Smieciarka == true){
+                                znacznik =i;
+                            }
+                            break;
+                        }
+
+
+                }
+                Rzecz.Pole_kolizji.x = Rzecz.Pole_kolizji_X_domyslny;
+                Rzecz.Pole_kolizji.y = Rzecz.Pole_kolizji_Y_domyslny;
+                gp.Poj[i].Pole_kolizji.x = gp.Poj[i].Pole_kolizji_X_domyslny;
+                gp.Poj[i].Pole_kolizji.y = gp.Poj[i].Pole_kolizji_Y_domyslny;
 
             }
         }

@@ -6,12 +6,13 @@ import java.io.IOException;
 public class Pojemnik_szkło extends Pojemnik {
 
     public Pojemnik_szkło() {
-        nazwa = "papier";
+        nazwa = "szklo";
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/Pojemniki/szklo.png"));
 
         } catch(IOException e) {
             e.printStackTrace();
         }
+        kolizja = true;
     }
 }

@@ -13,5 +13,6 @@ public class Pojemnik_plastik extends Pojemnik{
         } catch(IOException e) {
             e.printStackTrace();
         }
+        kolizja = true;
     }
 }
