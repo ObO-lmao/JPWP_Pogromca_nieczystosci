@@ -6,5 +6,5 @@ public class Pole {
 
     public BufferedImage image;
     public boolean kolizja = false;
-
+    public boolean wysypisko = false;
 }

@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Kontroler_kolizji kontroler = new Kontroler_kolizji(this);
     public Rozmieszczacz_pojemnikow Mieczysław = new Rozmieszczacz_pojemnikow(this);
     Smieciarka smieciarka = new Smieciarka(this, keyH);
-    public Pojemnik Poj[]= new Pojemnik[10];
+
 
     public int StanGry;
     public final int StanMenu = 0;
@@ -37,9 +37,13 @@ public class GamePanel extends JPanel implements Runnable {
     public final int StanInstrukcja = 3;
     public final int StanPorażkaPomieszanie = 4;
     public final int StanPorażkaCzas = 5;
+    public final int StanKoniec = 6;
     public int licznikKlatek = 0;
     public final int RESETlicznik = 3600;
-    public int liczba_pojemników_1 = 0;
+    public final int maxMapy = 10;
+    public int aktualnaMapa = 0;
+    public Pojemnik Poj[][]= new Pojemnik[maxMapy][10];
+    public static int próg_poziomu =4;
 
 
 
@@ -57,6 +61,50 @@ public class GamePanel extends JPanel implements Runnable {
         licznikKlatek++;
     }
 
+    public int ilezebrać(int który_poziom){
+        int prog = 0;
+        for (int i = 0; i < Poj[który_poziom].length ; i++){
+            if (Poj[który_poziom][i] != null){
+                prog++;
+            }
+        }
+        System.out.println(prog);
+        return prog;
+
+    }
+
+    public void czy_kolejny_poziom(int próg){
+
+
+        if (Smieciarka.ile_zebrano == próg){
+            System.out.println("spełniono");
+            kolejny_poziom();
+        }
+
+    }
+    public void kolejny_poziom(){
+        Smieciarka.ustawieniaFabryczne();
+        aktualnaMapa ++;
+
+        switch (aktualnaMapa) {
+            case 0:
+                AdminP.LadujMape("Mapy/mapa1.txt", 0);
+                ui.resetCzasu();
+                próg_poziomu = ilezebrać(aktualnaMapa);
+                break;
+            case 1:
+                AdminP.LadujMape("Mapy/mapa2.txt", 1);
+                ui.resetCzasu();
+                próg_poziomu = ilezebrać(aktualnaMapa);
+                System.out.println(próg_poziomu);
+                break;
+            case 2:
+                StanGry = StanKoniec;
+                aktualnaMapa = 0;
+
+        }
+    }
+
     public void Ustawienie_gry() {
         
         Mieczysław.Ustaw_Pojemnik();
@@ -66,6 +114,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         gameThread= new Thread(this);
         gameThread.start();
+    }
+    public void spróbuj_ponownie(){
+
+        Smieciarka.ustawieniaFabryczne();
+        ui.resetCzasu();
+        Mieczysław.Ustaw_Pojemnik();
+
     }
 
     @Override
@@ -127,9 +182,9 @@ public class GamePanel extends JPanel implements Runnable {
         else if (StanGry != StanInstrukcja){
             AdminP.draw(g2);
 
-            for (int i = 0; i <  Poj.length; i++){
-                if (Poj[i] != null) {
-                    Poj[i].draw(g2,this);
+            for (int i = 0; i <  Poj[1].length; i++){
+                if (Poj[aktualnaMapa][i] != null) {
+                    Poj[aktualnaMapa][i].draw(g2,this);
                 }
             }
             smieciarka.draw(g2);

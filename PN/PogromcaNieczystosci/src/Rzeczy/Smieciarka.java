@@ -2,7 +2,6 @@ package Rzeczy;
 
 import Main.GamePanel;
 import Main.Klawiatura;
-import pole.Pole;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,11 +12,12 @@ public class Smieciarka extends Rzecz {
 
     GamePanel gp;
     Klawiatura keyH;
-    int papier = 0;
-    int plastik = 0;
-    int szklo = 0;
+    public static int papier = 0;
+    public static int plastik = 0;
+    public static int szklo = 0;
     public static int pojemnosc = 3;
     public static int ile_na_pace = 0;
+    public static int ile_zebrano = 0;
 
 
     public Smieciarka(GamePanel gp, Klawiatura keyH) {
@@ -25,7 +25,7 @@ public class Smieciarka extends Rzecz {
         this.gp = gp;
         this.keyH= keyH;
 
-        Pole_kolizji = new Rectangle(6,12, 39, 27);
+        Pole_kolizji = new Rectangle(6,12, 30, 20);
         Pole_kolizji_X_domyslny = Pole_kolizji.x;
         Pole_kolizji_Y_domyslny = Pole_kolizji.y;
 
@@ -35,10 +35,20 @@ public class Smieciarka extends Rzecz {
     }
     public void Parametry_podstawowe(){
 
-        x = 100;
-        y = 100;
+        x = 96;
+        y = 672;
         szybkosc = 4;
         kierunek = "góra";
+    }
+    public static void ustawieniaFabryczne(){
+        x = 96;
+        y = 672;
+        kierunek = "góra";
+        ile_na_pace = 0;
+        papier = 0;
+        plastik = 0;
+        szklo = 0;
+        ile_zebrano = 0;
     }
     public void obrazki_smieciarki() {
 
@@ -110,29 +120,29 @@ public class Smieciarka extends Rzecz {
 
         if(i != 999 && (ile_na_pace < pojemnosc)) {
 
-            String Rodzaj_pojemnika = gp.Poj[i].nazwa;
+            String Rodzaj_pojemnika = gp.Poj[gp.aktualnaMapa][i].nazwa;
 
             switch(Rodzaj_pojemnika){
                 case "papier":
                     papier++;
-                    gp.Poj[i]= null;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
                     ile_na_pace++;
                     break;
                 case "szklo":
                     szklo++;
-                    gp.Poj[i]= null;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
                     ile_na_pace ++;
                     break;
                 case "plastik":
                     plastik++;
-                    gp.Poj[i]= null;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
                     ile_na_pace++;
                     break;
 
             }
             if ((papier > 0) && (plastik >0) && (szklo>0)){
                 gp.ui.porażka_pomieszanie = true;
-
+                gp.StanGry = gp.StanPorażkaPomieszanie;
             }
 
         }

@@ -2,8 +2,7 @@ package Main;
 
 import Rzeczy.Rzecz;
 
-import static Rzeczy.Smieciarka.ile_na_pace;
-import static Rzeczy.Smieciarka.pojemnosc;
+import static Rzeczy.Smieciarka.*;
 
 public class Kontroler_kolizji {
 
@@ -29,34 +28,62 @@ public class Kontroler_kolizji {
         switch(Rzecz.kierunek) {
             case "góra":
                     górny_wiersz = (Górny_Y - Rzecz.szybkosc)/gp.rozmiar_pola;
-                    Pole1 = gp.AdminP.MapaNumerPola[lewa_kolumna][górny_wiersz];
-                    Pole2 = gp.AdminP.MapaNumerPola[prawa_kolumna][górny_wiersz];
+                    Pole1 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][lewa_kolumna][górny_wiersz];
+                    Pole2 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][prawa_kolumna][górny_wiersz];
                     if(gp.AdminP.pole[Pole1].kolizja == true || gp.AdminP.pole[Pole2].kolizja == true) {
                         Rzecz.kolizja_działa = true;
+                    }
+                    if(gp.AdminP.pole[Pole1].wysypisko == true || gp.AdminP.pole[Pole2].wysypisko == true ){
+                        ile_zebrano += ile_na_pace;
+                        ile_na_pace = 0;
+                        papier = 0;
+                        plastik = 0;
+                        szklo =0;
                     }
                 break;
             case "dół":
                     dolny_wiersz = (Dolny_Y + Rzecz.szybkosc)/gp.rozmiar_pola;
-                    Pole1 = gp.AdminP.MapaNumerPola[lewa_kolumna][dolny_wiersz];
-                    Pole2 = gp.AdminP.MapaNumerPola[prawa_kolumna][dolny_wiersz];
+                    Pole1 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][lewa_kolumna][dolny_wiersz];
+                    Pole2 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][prawa_kolumna][dolny_wiersz];
                     if(gp.AdminP.pole[Pole1].kolizja == true || gp.AdminP.pole[Pole2].kolizja == true) {
                         Rzecz.kolizja_działa = true;
+                }
+                if(gp.AdminP.pole[Pole1].wysypisko == true || gp.AdminP.pole[Pole2].wysypisko == true ){
+                    ile_zebrano += ile_na_pace;
+                    ile_na_pace = 0;
+                    papier = 0;
+                    plastik = 0;
+                    szklo =0;
                 }
                 break;
             case "lewo":
                 lewa_kolumna = (Lewy_X - Rzecz.szybkosc)/gp.rozmiar_pola;
-                Pole1 = gp.AdminP.MapaNumerPola[lewa_kolumna][górny_wiersz];
-                Pole2 = gp.AdminP.MapaNumerPola[lewa_kolumna][dolny_wiersz];
+                Pole1 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][lewa_kolumna][górny_wiersz];
+                Pole2 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][lewa_kolumna][dolny_wiersz];
                 if(gp.AdminP.pole[Pole1].kolizja == true || gp.AdminP.pole[Pole2].kolizja == true) {
                     Rzecz.kolizja_działa = true;
+                }
+                if(gp.AdminP.pole[Pole1].wysypisko == true || gp.AdminP.pole[Pole2].wysypisko == true ){
+                    ile_zebrano += ile_na_pace;
+                    ile_na_pace = 0;
+                    papier = 0;
+                    plastik = 0;
+                    szklo =0;
                 }
                 break;
             case "prawo":
                 prawa_kolumna = (Prawy_X + Rzecz.szybkosc)/gp.rozmiar_pola;
-                Pole1 = gp.AdminP.MapaNumerPola[prawa_kolumna][górny_wiersz];
-                Pole2 = gp.AdminP.MapaNumerPola[prawa_kolumna][dolny_wiersz];
+                Pole1 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][prawa_kolumna][górny_wiersz];
+                Pole2 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][prawa_kolumna][dolny_wiersz];
                 if(gp.AdminP.pole[Pole1].kolizja == true || gp.AdminP.pole[Pole2].kolizja == true) {
                     Rzecz.kolizja_działa = true;
+                }
+                if(gp.AdminP.pole[Pole1].wysypisko == true || gp.AdminP.pole[Pole2].wysypisko == true ){
+                    ile_zebrano += ile_na_pace;
+                    ile_na_pace = 0;
+                    papier = 0;
+                    plastik = 0;
+                    szklo =0;
                 }
                 break;
 
@@ -68,23 +95,23 @@ public class Kontroler_kolizji {
 
         int znacznik = 999;
 
-        for (int i = 0; i < gp.Poj.length; i++){
+        for (int i = 0; i < gp.Poj[1].length; i++){
 
-            if(gp.Poj[i] != null){
+            if(gp.Poj[gp.aktualnaMapa][i] != null){
 
                 Rzecz.Pole_kolizji.x = Rzecz.x + Rzecz.Pole_kolizji.x;
                 Rzecz.Pole_kolizji.y= Rzecz.y + Rzecz.Pole_kolizji.y;
 
-                gp.Poj[i].Pole_kolizji.x = gp.Poj[i].x + gp.Poj[i].Pole_kolizji.x;
-                gp.Poj[i].Pole_kolizji.y = gp.Poj[i].y + gp.Poj[i].Pole_kolizji.y;
+                gp.Poj[gp.aktualnaMapa][i].Pole_kolizji.x = gp.Poj[gp.aktualnaMapa][i].x + gp.Poj[gp.aktualnaMapa][i].Pole_kolizji.x;
+                gp.Poj[gp.aktualnaMapa][i].Pole_kolizji.y = gp.Poj[gp.aktualnaMapa][i].y + gp.Poj[gp.aktualnaMapa][i].Pole_kolizji.y;
 
                 switch(Rzecz.kierunek){
                     case "góra":
                         Rzecz.Pole_kolizji.y -= Rzecz.szybkosc;
-                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
-                            if(gp.Poj[i].kolizja == true) {
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
+                            if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku");
 
@@ -99,10 +126,10 @@ public class Kontroler_kolizji {
 
                     case "dół":
                         Rzecz.Pole_kolizji.y += Rzecz.szybkosc;
-                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
-                            if(gp.Poj[i].kolizja == true) {
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
+                            if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku.");
 
@@ -116,10 +143,10 @@ public class Kontroler_kolizji {
 
                     case "lewo":
                         Rzecz.Pole_kolizji.x -= Rzecz.szybkosc;
-                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
-                            if(gp.Poj[i].kolizja == true) {
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
+                            if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku.");
 
@@ -133,10 +160,10 @@ public class Kontroler_kolizji {
 
                     case "prawo":
                         Rzecz.Pole_kolizji.x += Rzecz.szybkosc;
-                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[i].Pole_kolizji)){
-                            if(gp.Poj[i].kolizja == true) {
+                        if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
+                            if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[i].nazwa);
+                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku.");
 
@@ -152,8 +179,8 @@ public class Kontroler_kolizji {
                 }
                 Rzecz.Pole_kolizji.x = Rzecz.Pole_kolizji_X_domyslny;
                 Rzecz.Pole_kolizji.y = Rzecz.Pole_kolizji_Y_domyslny;
-                gp.Poj[i].Pole_kolizji.x = gp.Poj[i].Pole_kolizji_X_domyslny;
-                gp.Poj[i].Pole_kolizji.y = gp.Poj[i].Pole_kolizji_Y_domyslny;
+                gp.Poj[gp.aktualnaMapa][i].Pole_kolizji.x = gp.Poj[gp.aktualnaMapa][i].Pole_kolizji_X_domyslny;
+                gp.Poj[gp.aktualnaMapa][i].Pole_kolizji.y = gp.Poj[gp.aktualnaMapa][i].Pole_kolizji_Y_domyslny;
 
             }
         }
