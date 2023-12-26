@@ -22,13 +22,26 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
     AdminPola AdminP = new AdminPola(this);
-    Klawiatura keyH = new Klawiatura();
+    Klawiatura keyH = new Klawiatura(this);
     public UI ui = new UI(this);
     Thread gameThread;
     public Kontroler_kolizji kontroler = new Kontroler_kolizji(this);
     public Rozmieszczacz_pojemnikow Mieczysław = new Rozmieszczacz_pojemnikow(this);
     Smieciarka smieciarka = new Smieciarka(this, keyH);
     public Pojemnik Poj[]= new Pojemnik[10];
+
+    public int StanGry;
+    public final int StanMenu = 0;
+    public final int StanGranie = 1;
+    public final int StanPauza = 2;
+    public final int StanInstrukcja = 3;
+    public final int StanPorażkaPomieszanie = 4;
+    public final int StanPorażkaCzas = 5;
+    public int licznikKlatek = 0;
+    public final int RESETlicznik = 3600;
+    public int liczba_pojemników_1 = 0;
+
+
 
 
     public GamePanel () {
@@ -40,9 +53,14 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
     }
+    public void incLicznikKlatek(){
+        licznikKlatek++;
+    }
 
-    public void Rozmiesczenie_pojemnikow() {
+    public void Ustawienie_gry() {
+        
         Mieczysław.Ustaw_Pojemnik();
+        StanGry = StanMenu;
     }
     public void startGameThread() {
 
@@ -76,14 +94,24 @@ public class GamePanel extends JPanel implements Runnable {
 
                     nastepna_aktualizacja_ekranu += czas_aktualizacji_ekranu;
 
+                    incLicznikKlatek();
+
+                    if (licznikKlatek >= RESETlicznik){
+                        licznikKlatek =0;
+                    }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
     }
     public void update() {
+        if (StanGry == StanGranie) {
+            smieciarka.update();
+        }
+        if (StanGry == StanPauza) {
 
-        smieciarka.update();
+        }
 
     }
     public void paintComponent(Graphics g) {
@@ -92,19 +120,32 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D)g;
 
-        AdminP.draw(g2);
+        if (StanGry == StanMenu){
+            ui.draw(g2);
 
-        for (int i = 0; i <  Poj.length; i++){
-            if (Poj[i] != null) {
-                Poj[i].draw(g2,this);
-            }
         }
-        smieciarka.draw(g2);
+        else if (StanGry != StanInstrukcja){
+            AdminP.draw(g2);
 
-        ui.draw(g2);
+            for (int i = 0; i <  Poj.length; i++){
+                if (Poj[i] != null) {
+                    Poj[i].draw(g2,this);
+                }
+            }
+            smieciarka.draw(g2);
+
+            ui.draw(g2);
+
+
+        }
+        else if (StanGry == StanInstrukcja){
+            ui.draw(g2);
+        }
+
 
 
 
         g2.dispose();
     }
+
 }

@@ -31,4 +31,5 @@ public class Rozmieszczacz_pojemnikow {
         gp.Poj[3].y = 11 * gp.rozmiar_pola;
 
     }
+
 }

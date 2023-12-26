@@ -16,6 +16,7 @@ public class Pojemnik {
     public int Pole_kolizji_Y_domyslny = 0;
 
 
+
     public void draw(Graphics2D g2, GamePanel gp){
 
         g2.drawImage(image, x , y , gp.rozmiar_pola, gp.rozmiar_pola, null);
