@@ -1,5 +1,6 @@
 package Main;
 
+import Pojemniki.Pojemnik_mieszane;
 import Pojemniki.Pojemnik_papier;
 import Pojemniki.Pojemnik_plastik;
 import Pojemniki.Pojemnik_szkło;
@@ -13,15 +14,18 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font calibri_36, calibri_48B, calibri_18, calibri_18B;
-    BufferedImage symbol_plastik, symbol_szklo, symbol_papier;
+    BufferedImage symbol_plastik, symbol_szklo, symbol_papier, symbol_mieszane;
     public boolean czy_powiadomienie = false;
     public String powiadomienie ="";
     public int czas_powiadomienia = 0;
     public boolean porażka_pomieszanie = false;
     public int wybrana_opcja = 0;
-    public int czasNaPoziom_default = 2400;
+    public int czasNaPoziom_default1 = 6000;
+    public int czasNaPoziom_default2 = 7200;
+    public int czasNaPoziom_default3 = 8400;
 
-    public int czasNaPoziom = czasNaPoziom_default;
+    public int czasNaPoziom_default = 0;
+    public int czasNaPoziom = czasNaPoziom_default1;
     private int klatki = 60;
     public int któryEkranMenu = 0;
 
@@ -37,9 +41,11 @@ public class UI {
         Pojemnik_papier papier = new Pojemnik_papier();
         Pojemnik_szkło szklo = new Pojemnik_szkło();
         Pojemnik_plastik plastik = new Pojemnik_plastik();
+        Pojemnik_mieszane mieszane = new Pojemnik_mieszane();
         symbol_plastik = plastik.image;
         symbol_papier = papier.image;
         symbol_szklo = szklo.image;
+        symbol_mieszane = mieszane.image;
 
     }
 
@@ -221,10 +227,11 @@ public class UI {
         if (gp.StanGry != gp.StanMenu){
             g2.setFont(calibri_36);
             g2.setColor(Color.white);
-            g2.drawImage(symbol_szklo, gp.rozmiar_pola/4, -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
-            g2.drawImage(symbol_papier, 3*gp.rozmiar_pola/4, -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
-            g2.drawImage(symbol_plastik, 5*gp.rozmiar_pola/4,  -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
-            g2.drawString(": " + Smieciarka.ile_na_pace +"/"+Smieciarka.pojemnosc, 125, 35);
+            g2.drawImage(symbol_mieszane, gp.rozmiar_pola/4, -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
+            g2.drawImage(symbol_szklo, 3*gp.rozmiar_pola/4, -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
+            g2.drawImage(symbol_papier, 5*gp.rozmiar_pola/4, -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
+            g2.drawImage(symbol_plastik, 7*gp.rozmiar_pola/4,  -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
+            g2.drawString(": " + Smieciarka.ile_na_pace +"/"+Smieciarka.pojemnosc, 150, 35);
 
             if(czy_powiadomienie == true){
                 g2.setFont(g2.getFont().deriveFont(30F));
@@ -399,7 +406,7 @@ public class UI {
         int x = 0;
         int y;
 
-        text = "Panie Areczku, gratulujemy wykonania zadani.\n Jednakże Panie Areczku: premie są dla zarządu.\n" +
+        text = "Panie Areczku, gratulujemy wykonania zadania.\n Jednakże Panie Areczku: premie są dla zarządu.\n" +
                 "Dla pana zaś mamy owocowe czwartki lub powtórkę z rozrywki.";
         String[] lines = text.split("\n");
         y = gp.dlugosc - (gp.dlugosc - (gp.rozmiar_pola*3));

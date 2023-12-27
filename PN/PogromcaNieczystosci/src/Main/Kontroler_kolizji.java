@@ -11,7 +11,7 @@ public class Kontroler_kolizji {
     public Kontroler_kolizji(GamePanel gp){
         this.gp = gp;
     }
-    public void SprawdzPiksel(Rzecz rzecz){
+    public void SprawdzPiksel(Rzecz rzecz){ //definiowanie pikseli pól kolizji, których kontakt ze śmieciarką będzie sprawdzany w zależności od jej kierunku poruszania
 
         int Lewy_X= rzecz.x+ Rzecz.Pole_kolizji.x;
         int Prawy_X = rzecz.x + Rzecz.Pole_kolizji.x + Rzecz.Pole_kolizji.width;
@@ -25,8 +25,8 @@ public class Kontroler_kolizji {
 
         int Pole1, Pole2;
 
-        switch(Rzecz.kierunek) {
-            case "góra":
+        switch(Rzecz.kierunek) {  // kolizja jest sprawdzana wyłącznie na dwóch pikselach pola kolizji w zależności od kierunku poruszania się śmieciarki
+            case "góra":          // gdy śmieciarka porusza się w górę, kolizja sprawdza jedynie dwa piksele dolne pól kolizji danego elementu tła, co działa analogicznie dla innych kierunków
                     górny_wiersz = (Górny_Y - Rzecz.szybkosc)/gp.rozmiar_pola;
                     Pole1 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][lewa_kolumna][górny_wiersz];
                     Pole2 = gp.AdminP.MapaNumerPola[gp.aktualnaMapa][prawa_kolumna][górny_wiersz];
@@ -39,6 +39,7 @@ public class Kontroler_kolizji {
                         papier = 0;
                         plastik = 0;
                         szklo =0;
+                        mieszane =0;
                     }
                 break;
             case "dół":
@@ -54,6 +55,7 @@ public class Kontroler_kolizji {
                     papier = 0;
                     plastik = 0;
                     szklo =0;
+                    mieszane =0;
                 }
                 break;
             case "lewo":
@@ -69,6 +71,7 @@ public class Kontroler_kolizji {
                     papier = 0;
                     plastik = 0;
                     szklo =0;
+                    mieszane = 0;
                 }
                 break;
             case "prawo":
@@ -83,12 +86,14 @@ public class Kontroler_kolizji {
                     ile_na_pace = 0;
                     papier = 0;
                     plastik = 0;
-                    szklo =0;
+                    szklo = 0;
+                    mieszane = 0;
+
                 }
                 break;
 
 
-        }
+        } //dodatkowo weryfikowane jest wejście na wysypisko, co wiąże się z resetem zebranych śmieci
 
     }
     public int SprawdzPojemnik(Rzecz rzecz, boolean Smieciarka){
@@ -111,7 +116,6 @@ public class Kontroler_kolizji {
                         if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
                             if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku");
 
@@ -129,7 +133,6 @@ public class Kontroler_kolizji {
                         if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
                             if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku.");
 
@@ -146,7 +149,6 @@ public class Kontroler_kolizji {
                         if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
                             if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku.");
 
@@ -163,7 +165,6 @@ public class Kontroler_kolizji {
                         if(Rzecz.Pole_kolizji.intersects(gp.Poj[gp.aktualnaMapa][i].Pole_kolizji)){
                             if(gp.Poj[gp.aktualnaMapa][i].kolizja == true) {
                                 Rzecz.kolizja_działa = true;
-                                System.out.println("kolizja z " + i + gp.Poj[gp.aktualnaMapa][i].nazwa);
                                 if (ile_na_pace == pojemnosc){
                                     gp.ui.pokaz_powiadomienie("Osiągnięto limit załadunku. Rozładuj śmieciarkę na wysypisku.");
 

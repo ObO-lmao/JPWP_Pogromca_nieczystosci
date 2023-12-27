@@ -10,12 +10,16 @@ import java.io.IOException;
 
 public class Smieciarka extends Rzecz {
 
-    GamePanel gp;
+    static GamePanel gp;
     Klawiatura keyH;
     public static int papier = 0;
     public static int plastik = 0;
     public static int szklo = 0;
-    public static int pojemnosc = 3;
+
+    public static int mieszane = 0;
+
+    public static int pojemnosc_default = 3;
+    public static int pojemnosc = pojemnosc_default;
     public static int ile_na_pace = 0;
     public static int ile_zebrano = 0;
 
@@ -37,7 +41,7 @@ public class Smieciarka extends Rzecz {
 
         x = 96;
         y = 672;
-        szybkosc = 4;
+        szybkosc = 10;
         kierunek = "góra";
     }
     public static void ustawieniaFabryczne(){
@@ -48,7 +52,9 @@ public class Smieciarka extends Rzecz {
         papier = 0;
         plastik = 0;
         szklo = 0;
+        mieszane = 0;
         ile_zebrano = 0;
+
     }
     public void obrazki_smieciarki() {
 
@@ -138,9 +144,14 @@ public class Smieciarka extends Rzecz {
                     gp.Poj[gp.aktualnaMapa][i]= null;
                     ile_na_pace++;
                     break;
+                case "mieszane":
+                    mieszane++;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
+                    ile_na_pace++;
+                    break;
 
             }
-            if ((papier > 0) && (plastik >0) && (szklo>0)){
+            if (((papier > 0) && (plastik >0) && (szklo>0))||((mieszane > 0) && (plastik >0) && (szklo>0))||((papier > 0) && (mieszane >0) && (szklo>0))||((papier > 0) && (plastik >0) && (mieszane>0))){
                 gp.ui.porażka_pomieszanie = true;
                 gp.StanGry = gp.StanPorażkaPomieszanie;
             }

@@ -20,7 +20,7 @@ public class AdminPola {
 
         this.gp = gp;
 
-        pole = new Pole[10];
+        pole = new Pole[11];
         MapaNumerPola = new int[gp.maxMapy][gp.max_kolumna][gp.max_szereg];
 
         getObrazekPola();
@@ -51,8 +51,15 @@ public class AdminPola {
             pole[5]= new Pole();
             pole[5].image = ImageIO.read(getClass().getResourceAsStream("/pola/roboczy.png"));
             pole[5].kolizja = true;
-
-
+            pole[6] = new Pole ();
+            pole[6].image = ImageIO.read(getClass().getResourceAsStream("/pola/dziedzictwo_narodowe_pierwszego_sekretarza_gierka1.png"));
+            pole[6].kolizja = true;
+            pole[7] = new Pole ();
+            pole[7].image = ImageIO.read(getClass().getResourceAsStream("/pola/dziedzictwo_narodowe_pierwszego_sekretarza_gierka2.png"));
+            pole[7].kolizja = true;
+            pole[8] = new Pole ();
+            pole[8].image = ImageIO.read(getClass().getResourceAsStream("/pola/dziedzictwo_narodowe_pierwszego_sekretarza_gierka3.png"));
+            pole[8].kolizja = true;
         }catch(IOException e){
             e.printStackTrace();
         }

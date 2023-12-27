@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int RESETlicznik = 3600;
     public final int maxMapy = 10;
     public int aktualnaMapa = 0;
-    public Pojemnik Poj[][]= new Pojemnik[maxMapy][10];
+    public Pojemnik Poj[][]= new Pojemnik[maxMapy][20];
     public static int próg_poziomu =4;
 
 
@@ -59,30 +59,28 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void incLicznikKlatek(){
         licznikKlatek++;
-    }
+    } // licznik stosowany do odliczania czas na danym poziomie
 
-    public int ilezebrać(int który_poziom){
+    public int ilezebrać(int który_poziom){             // wyznacznenie ilości śmieci na danym poziomie
         int prog = 0;
         for (int i = 0; i < Poj[który_poziom].length ; i++){
             if (Poj[który_poziom][i] != null){
                 prog++;
             }
         }
-        System.out.println(prog);
         return prog;
 
     }
 
-    public void czy_kolejny_poziom(int próg){
+    public void czy_kolejny_poziom(int próg){ // sprawdzenie czy zebrano wszystkie śmieci z poziomu
 
 
         if (Smieciarka.ile_zebrano == próg){
-            System.out.println("spełniono");
             kolejny_poziom();
         }
 
     }
-    public void kolejny_poziom(){
+    public void kolejny_poziom(){            // przejście na kolejny poziom wraz z resetowaniem pozycji śmieciarki, jej atrybutów oraz czasu
         Smieciarka.ustawieniaFabryczne();
         aktualnaMapa ++;
 
@@ -91,23 +89,41 @@ public class GamePanel extends JPanel implements Runnable {
                 AdminP.LadujMape("Mapy/mapa1.txt", 0);
                 ui.resetCzasu();
                 próg_poziomu = ilezebrać(aktualnaMapa);
+                System.out.println(aktualnaMapa);
                 break;
             case 1:
                 AdminP.LadujMape("Mapy/mapa2.txt", 1);
                 ui.resetCzasu();
                 próg_poziomu = ilezebrać(aktualnaMapa);
-                System.out.println(próg_poziomu);
+                Smieciarka.pojemnosc = 4;
+                System.out.println(aktualnaMapa);
                 break;
             case 2:
+                AdminP.LadujMape("Mapy/mapa3.txt", 2);
+                ui.resetCzasu();
+                Smieciarka.pojemnosc = Smieciarka.pojemnosc_default;
+                System.out.println(aktualnaMapa);
+                próg_poziomu = ilezebrać(aktualnaMapa);
+                break;
+            case 3:
+                AdminP.LadujMape("Mapy/mapa4.txt", 3);
+                ui.resetCzasu();
+                Smieciarka.pojemnosc = 4;
+                System.out.println(aktualnaMapa);
+                próg_poziomu = ilezebrać(aktualnaMapa);
+                break;
+            case 4:
                 StanGry = StanKoniec;
+                Smieciarka.pojemnosc = Smieciarka.pojemnosc_default;
                 aktualnaMapa = 0;
+                break;
 
         }
     }
 
     public void Ustawienie_gry() {
         
-        Mieczysław.Ustaw_Pojemnik();
+
         StanGry = StanMenu;
     }
     public void startGameThread() {
@@ -124,7 +140,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() {                  // wprawienie gry w ruch poprzez aktualizację tego, co dzieje się na ekranie
 
             double czas_aktualizacji_ekranu = 1000000000/FPS;
             double nastepna_aktualizacja_ekranu= System.nanoTime() + czas_aktualizacji_ekranu;
@@ -137,7 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 
-                try {
+                try {                                      // aktualizowanie ekranu 60 razy na sekundę
                     double pozostaly_czas= nastepna_aktualizacja_ekranu - System.nanoTime();
                     pozostaly_czas = pozostaly_czas/1000000;
 
@@ -151,7 +167,7 @@ public class GamePanel extends JPanel implements Runnable {
 
                     incLicznikKlatek();
 
-                    if (licznikKlatek >= RESETlicznik){
+                    if (licznikKlatek >= RESETlicznik){   // resetowanie licznika klatek używanego do odliczania w dół na danym poziomie
                         licznikKlatek =0;
                     }
 
@@ -164,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (StanGry == StanGranie) {
             smieciarka.update();
         }
-        if (StanGry == StanPauza) {
+        if (StanGry == StanPauza) {   // zatrzymanie gry w trakcie pauzy
 
         }
 
@@ -182,12 +198,12 @@ public class GamePanel extends JPanel implements Runnable {
         else if (StanGry != StanInstrukcja){
             AdminP.draw(g2);
 
-            for (int i = 0; i <  Poj[1].length; i++){
+            for (int i = 0; i <  Poj[1].length; i++){ // ciągłe rysowanie ekranu na każdej klatce, dające efekt tła
                 if (Poj[aktualnaMapa][i] != null) {
                     Poj[aktualnaMapa][i].draw(g2,this);
                 }
             }
-            smieciarka.draw(g2);
+            smieciarka.draw(g2);   // rysowanie śmieciarki z aktualizacją pozycji z częstotliwością 60 klatek na sekundę
 
             ui.draw(g2);
 

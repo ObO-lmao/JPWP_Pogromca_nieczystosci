@@ -1,5 +1,7 @@
 package Main;
 
+import Rzeczy.Smieciarka;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -23,7 +25,7 @@ public class Klawiatura implements KeyListener {
 
         int code = e.getKeyCode();
 
-        if(gp.StanGry == gp.StanMenu){
+        if(gp.StanGry == gp.StanMenu){            // nasłuchiwanie klawiatury w menu i implementacja strzałek przy aktualnie wybranej opcji
 
             if (gp.ui.któryEkranMenu == 0){
                 if(code == KeyEvent.VK_W){
@@ -38,19 +40,19 @@ public class Klawiatura implements KeyListener {
                         gp.ui.wybrana_opcja = 0;
                     }
                 }
-                if(code == KeyEvent.VK_ENTER){
+                if(code == KeyEvent.VK_ENTER){    // przejście do wyboru czasu na poziom
                     if(gp.ui.wybrana_opcja == 0){
                         gp.aktualnaMapa = 0;
                         gp.ui.któryEkranMenu = 1;
                         czy_grano = true;
 
                     }
-                    if(gp.ui.wybrana_opcja == 1){
+                    if(gp.ui.wybrana_opcja == 1){  // przejście do gry od ostaniego postępu
                         if(czy_grano) {
                             gp.StanGry = gp.StanGranie;
                         }
                     }
-                    if(gp.ui.wybrana_opcja == 2){
+                    if(gp.ui.wybrana_opcja == 2){  // przejście do instrukcji
                         gp.StanGry =  gp.StanInstrukcja;
                     }
                     if(gp.ui.wybrana_opcja == 3){
@@ -58,7 +60,7 @@ public class Klawiatura implements KeyListener {
                     }
                 }
             }
-            else if (gp.ui.któryEkranMenu == 1){
+            else if (gp.ui.któryEkranMenu == 1){  // nasłuchiwanie klawiatury w trakcie wyboru czasu na poziom
                 if(code == KeyEvent.VK_W){
                     gp.ui.wybrana_opcja--;
                     if(gp.ui.wybrana_opcja < 0){
@@ -71,19 +73,24 @@ public class Klawiatura implements KeyListener {
                         gp.ui.wybrana_opcja = 0;
                     }
                 }
-                if(code == KeyEvent.VK_ENTER){
+                if(code == KeyEvent.VK_ENTER){            // przygotowanie nowej gry w 3 różniących się wybranym czasem
                     if(gp.ui.wybrana_opcja == 0){
-                        gp.aktualnaMapa = 3;
-                        gp.ui.czasNaPoziom_default = 3600;
-                        gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default;
+                        gp.aktualnaMapa = 0;
+                        gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default1;
+                        gp.ui.czasNaPoziom_default = gp.ui.czasNaPoziom;
                         gp.StanGry = gp.StanGranie;
+                        Smieciarka.ustawieniaFabryczne();
+                        gp.Mieczysław.Ustaw_Pojemnik();
                         gp.ui.któryEkranMenu = 0;
                         gp.ui.wybrana_opcja =0;
                     }
                     if(gp.ui.wybrana_opcja == 1){
                         gp.aktualnaMapa = 0;
-                        gp.ui.czasNaPoziom_default = 4800;
-                        gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default;
+
+                        gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default2;
+                        gp.ui.czasNaPoziom_default = gp.ui.czasNaPoziom;
+                        Smieciarka.ustawieniaFabryczne();
+                        gp.Mieczysław.Ustaw_Pojemnik();
                         gp.StanGry = gp.StanGranie;
                         gp.ui.któryEkranMenu = 0;
                         gp.ui.wybrana_opcja =0;
@@ -91,8 +98,10 @@ public class Klawiatura implements KeyListener {
                     }
                     if(gp.ui.wybrana_opcja == 2){
                         gp.aktualnaMapa = 0;
-                        gp.ui.czasNaPoziom_default = 6000;
-                        gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default;
+                        Smieciarka.ustawieniaFabryczne();
+                        gp.Mieczysław.Ustaw_Pojemnik();
+                        gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default3;
+                        gp.ui.czasNaPoziom_default = gp.ui.czasNaPoziom;
                         gp.StanGry = gp.StanGranie;
                         gp.ui.któryEkranMenu = 0;
                         gp.ui.wybrana_opcja =0;
@@ -109,7 +118,7 @@ public class Klawiatura implements KeyListener {
                 System.out.println( gp.StanGry);
             }
         }
-        else if(gp.StanGry == gp.StanPorażkaCzas || gp.StanGry == gp.StanPorażkaPomieszanie){
+        else if(gp.StanGry == gp.StanPorażkaCzas || gp.StanGry == gp.StanPorażkaPomieszanie){ // nasłuchiwanie klawiatury w trakcie ekranu dowolnej z opcji porażki
             if (code == KeyEvent.VK_W) {
                 gp.ui.wybrana_opcja--;
                 if(gp.ui.wybrana_opcja < 0){
@@ -133,7 +142,7 @@ public class Klawiatura implements KeyListener {
                 }
             }
         }
-        else if (gp.StanGry == gp.StanKoniec){
+        else if (gp.StanGry == gp.StanKoniec){  //nasłuchiwanie na ekranie końcowym
             if (code == KeyEvent.VK_W) {
                 gp.ui.wybrana_opcja--;
                 if(gp.ui.wybrana_opcja < 0){
@@ -157,7 +166,7 @@ public class Klawiatura implements KeyListener {
                 }
             }
         }
-
+                                               // nasłuchiwanie w trakcie gry
         if(code == KeyEvent.VK_W){
             W_pressed = true;
         }
@@ -181,21 +190,12 @@ public class Klawiatura implements KeyListener {
         if(code == KeyEvent.VK_ESCAPE){
             gp.StanGry = gp.StanMenu;
         }
-        if(code == KeyEvent.VK_R){
-            switch (gp.aktualnaMapa){
-                case 0: gp.AdminP.LadujMape("Mapy/mapa1.txt",0);
-                gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default;
-                break;
-                case 1: gp.AdminP.LadujMape("Mapy/mapa2.txt",0);
-                gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default;
-                break;
-            }
-        }
+
     }
 
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) { //zatrzymywanie śmieciarki po puszczeniu klawisza
 
         int code = e.getKeyCode();
 
