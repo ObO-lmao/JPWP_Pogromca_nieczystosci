@@ -41,7 +41,7 @@ public class Smieciarka extends Rzecz {
 
         x = 96;
         y = 672;
-        szybkosc = 10;
+        szybkosc = 6;
         kierunek = "góra";
     }
     public static void ustawieniaFabryczne(){

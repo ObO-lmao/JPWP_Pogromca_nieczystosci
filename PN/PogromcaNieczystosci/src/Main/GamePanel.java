@@ -10,6 +10,13 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
+    /**
+     *
+     */
+
+
+
+
     // USTAWIENIA POLA GRAFICZNEGO
     final int org_rozmiar_pola = 16; // 16x16
     final int skalowanie = 3;
@@ -31,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public int StanGry;
-    public final int StanMenu = 0;
+    public int StanMenu = 0;
     public final int StanGranie = 1;
     public final int StanPauza = 2;
     public final int StanInstrukcja = 3;
@@ -76,6 +83,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
         if (Smieciarka.ile_zebrano == próg){
+            System.out.println("spełniono");
             kolejny_poziom();
         }
 
@@ -87,16 +95,20 @@ public class GamePanel extends JPanel implements Runnable {
         switch (aktualnaMapa) {
             case 0:
                 AdminP.LadujMape("Mapy/mapa1.txt", 0);
-                ui.resetCzasu();
-                próg_poziomu = ilezebrać(aktualnaMapa);
                 System.out.println(aktualnaMapa);
+                ui.resetCzasu();
+                Smieciarka.pojemnosc = Smieciarka.pojemnosc_default;
+                próg_poziomu = ilezebrać(aktualnaMapa);
+                System.out.println(próg_poziomu);
+
                 break;
             case 1:
                 AdminP.LadujMape("Mapy/mapa2.txt", 1);
+                System.out.println(aktualnaMapa);
                 ui.resetCzasu();
                 próg_poziomu = ilezebrać(aktualnaMapa);
                 Smieciarka.pojemnosc = 4;
-                System.out.println(aktualnaMapa);
+
                 break;
             case 2:
                 AdminP.LadujMape("Mapy/mapa3.txt", 2);
@@ -115,7 +127,6 @@ public class GamePanel extends JPanel implements Runnable {
             case 4:
                 StanGry = StanKoniec;
                 Smieciarka.pojemnosc = Smieciarka.pojemnosc_default;
-                aktualnaMapa = 0;
                 break;
 
         }

@@ -20,7 +20,7 @@ public class UI {
     public int czas_powiadomienia = 0;
     public boolean porażka_pomieszanie = false;
     public int wybrana_opcja = 0;
-    public int czasNaPoziom_default1 = 6000;
+    public int czasNaPoziom_default1 = 600;
     public int czasNaPoziom_default2 = 7200;
     public int czasNaPoziom_default3 = 8400;
 
@@ -224,7 +224,7 @@ public class UI {
         if(gp.StanGry == gp.StanGranie){
             updateLicznikCzasu();
         }
-        if (gp.StanGry != gp.StanMenu){
+        if (gp.StanGry != gp.StanMenu || gp.StanGry != gp.StanKoniec){
             g2.setFont(calibri_36);
             g2.setColor(Color.white);
             g2.drawImage(symbol_mieszane, gp.rozmiar_pola/4, -10, gp.rozmiar_pola, gp.rozmiar_pola, null);
@@ -281,7 +281,7 @@ public class UI {
         g2.setFont(calibri_18B);
         g2.setColor(Color.red);
 
-        String text = "Najazd sanepidu nastąpi za " + czasNaPoziom / (gp.FPS) ;
+        String text = "Wizyta sanepidu nastąpi za " + czasNaPoziom / (gp.FPS) ;
         int x = gp.szerokosc - gp.rozmiar_pola * 6;
         int y = gp.rozmiar_pola/2;
 
@@ -395,6 +395,10 @@ public class UI {
         }
     }
     public void koniecGry(){
+
+        Klawiatura.czy_grano = false;
+        Smieciarka.ustawieniaFabryczne();
+        Smieciarka.pojemnosc = Smieciarka.pojemnosc_default;
 
         g2.setColor(new Color(0,0,0,150));
         g2.fillRect(0,0, gp.szerokosc, gp.dlugosc);

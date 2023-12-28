@@ -5,11 +5,17 @@ import Rzeczy.Smieciarka;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
 public class Klawiatura implements KeyListener {
+
+    /**
+     * klasa odpowiedzialna za połączenie wciskanych przez gracza klawiszy z odpowiednimi akcjami
+     */
+
 
     GamePanel gp;
     public boolean W_pressed, S_pressed, A_pressed, D_pressed;
-    public boolean czy_grano = false;
+    public static boolean czy_grano = false;
 
 
     public Klawiatura(GamePanel gp){
@@ -42,9 +48,10 @@ public class Klawiatura implements KeyListener {
                 }
                 if(code == KeyEvent.VK_ENTER){    // przejście do wyboru czasu na poziom
                     if(gp.ui.wybrana_opcja == 0){
+                        Smieciarka.pojemnosc = Smieciarka.pojemnosc_default;
                         gp.aktualnaMapa = 0;
                         gp.ui.któryEkranMenu = 1;
-                        czy_grano = true;
+                        czy_grano = false;
 
                     }
                     if(gp.ui.wybrana_opcja == 1){  // przejście do gry od ostaniego postępu
@@ -75,22 +82,25 @@ public class Klawiatura implements KeyListener {
                 }
                 if(code == KeyEvent.VK_ENTER){            // przygotowanie nowej gry w 3 różniących się wybranym czasem
                     if(gp.ui.wybrana_opcja == 0){
+                        Klawiatura.czy_grano = true;
                         gp.aktualnaMapa = 0;
                         gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default1;
                         gp.ui.czasNaPoziom_default = gp.ui.czasNaPoziom;
                         gp.StanGry = gp.StanGranie;
                         Smieciarka.ustawieniaFabryczne();
                         gp.Mieczysław.Ustaw_Pojemnik();
+                        gp.próg_poziomu = gp.ilezebrać(gp.aktualnaMapa);
                         gp.ui.któryEkranMenu = 0;
                         gp.ui.wybrana_opcja =0;
                     }
                     if(gp.ui.wybrana_opcja == 1){
                         gp.aktualnaMapa = 0;
-
+                        Klawiatura.czy_grano = true;
                         gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default2;
                         gp.ui.czasNaPoziom_default = gp.ui.czasNaPoziom;
                         Smieciarka.ustawieniaFabryczne();
                         gp.Mieczysław.Ustaw_Pojemnik();
+                        gp.próg_poziomu = gp.ilezebrać(gp.aktualnaMapa);
                         gp.StanGry = gp.StanGranie;
                         gp.ui.któryEkranMenu = 0;
                         gp.ui.wybrana_opcja =0;
@@ -98,11 +108,13 @@ public class Klawiatura implements KeyListener {
                     }
                     if(gp.ui.wybrana_opcja == 2){
                         gp.aktualnaMapa = 0;
+                        Klawiatura.czy_grano = true;
                         Smieciarka.ustawieniaFabryczne();
                         gp.Mieczysław.Ustaw_Pojemnik();
                         gp.ui.czasNaPoziom = gp.ui.czasNaPoziom_default3;
                         gp.ui.czasNaPoziom_default = gp.ui.czasNaPoziom;
                         gp.StanGry = gp.StanGranie;
+                        gp.próg_poziomu = gp.ilezebrać(gp.aktualnaMapa);
                         gp.ui.któryEkranMenu = 0;
                         gp.ui.wybrana_opcja =0;
                     }
@@ -115,7 +127,7 @@ public class Klawiatura implements KeyListener {
         else if(gp.StanGry == gp.StanInstrukcja){
             if(code == KeyEvent.VK_B){
                 gp.StanGry = gp.StanMenu;
-                System.out.println( gp.StanGry);
+
             }
         }
         else if(gp.StanGry == gp.StanPorażkaCzas || gp.StanGry == gp.StanPorażkaPomieszanie){ // nasłuchiwanie klawiatury w trakcie ekranu dowolnej z opcji porażki
@@ -157,8 +169,11 @@ public class Klawiatura implements KeyListener {
             }
             if (code == KeyEvent.VK_ENTER) {
                 if(gp.ui.wybrana_opcja == 0){
+                    gp.Mieczysław.Ustaw_Pojemnik();
+                    gp.aktualnaMapa =0;
                     gp.StanGry = gp.StanGranie;
-                    gp.spróbuj_ponownie();
+                    gp.ui.resetCzasu();
+
                 }
                 if(gp.ui.wybrana_opcja ==1){
                     gp.StanGry = gp.StanMenu;

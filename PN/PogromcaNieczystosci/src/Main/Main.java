@@ -2,6 +2,10 @@ package Main;
 
 import javax.swing.*;
 
+/**
+ * klasa main projektu
+ */
+
 public class Main {
 
     public static void main(String[] args) {
