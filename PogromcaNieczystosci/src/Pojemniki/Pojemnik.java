@@ -9,11 +9,12 @@ public class Pojemnik {
 
     public BufferedImage image;
     public String nazwa;
-    public boolean kolizja = false;
+    public boolean kolizja = false;  // domyślnie zakładamy brak kolizji, kolizja następuje jedynie przy pełnym załadunku śmieciarki
     public int x, y;
-    public Rectangle Pole_kolizji = new Rectangle(0,0,48,48);
+    public Rectangle Pole_kolizji = new Rectangle(0,0,48,48); // poje kolizji pojhemników to cały blok
     public int Pole_kolizji_X_domyslny = 0;
     public int Pole_kolizji_Y_domyslny = 0;
+
 
 
     public void draw(Graphics2D g2, GamePanel gp){

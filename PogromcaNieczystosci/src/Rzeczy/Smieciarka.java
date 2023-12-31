@@ -2,7 +2,6 @@ package Rzeczy;
 
 import Main.GamePanel;
 import Main.Klawiatura;
-import pole.Pole;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,11 +10,18 @@ import java.io.IOException;
 
 public class Smieciarka extends Rzecz {
 
-    GamePanel gp;
+    static GamePanel gp;
     Klawiatura keyH;
-    int papier = 0;
-    int plastik = 0;
-    int szklo = 0;
+    public static int papier = 0; // poniższe cztery do sprawdzenia pomieszania śmieci
+    public static int plastik = 0;
+    public static int szklo = 0;
+
+    public static int mieszane = 0;
+
+    public static int pojemnosc_default = 3; // domyślna pojemność śmiecarki na poziom
+    public static int pojemnosc = pojemnosc_default;
+    public static int ile_na_pace = 0;      // licznik śmieci, które aktualnie są na śmieciarce
+    public static int ile_zebrano = 0;    // licznik śmieci odstawionych na wysypisako
 
 
     public Smieciarka(GamePanel gp, Klawiatura keyH) {
@@ -23,7 +29,7 @@ public class Smieciarka extends Rzecz {
         this.gp = gp;
         this.keyH= keyH;
 
-        Pole_kolizji = new Rectangle(6,12, 39, 27);
+        Pole_kolizji = new Rectangle(6,12, 30, 20);  // ustawienie pola kolizji śmieciarki- 30 pikseli szerokości i 20 wysokości wychodzących z punktu (6,12)
         Pole_kolizji_X_domyslny = Pole_kolizji.x;
         Pole_kolizji_Y_domyslny = Pole_kolizji.y;
 
@@ -31,14 +37,26 @@ public class Smieciarka extends Rzecz {
         Parametry_podstawowe();
         obrazki_smieciarki();
     }
-    public void Parametry_podstawowe(){
+    public void Parametry_podstawowe(){ // domyślne ustawienie śmieciarki na mapie
 
-        x = 100;
-        y = 100;
-        szybkosc = 4;
+        x = 96;
+        y = 672;
+        szybkosc = 6;
         kierunek = "góra";
     }
-    public void obrazki_smieciarki() {
+    public static void ustawieniaFabryczne(){ // resetowanie wszelkich zmiennych śmieciarki między poziomami i przed rozpoczęciem nowej gry
+        x = 96;
+        y = 672;
+        kierunek = "góra";
+        ile_na_pace = 0;
+        papier = 0;
+        plastik = 0;
+        szklo = 0;
+        mieszane = 0;
+        ile_zebrano = 0;
+
+    }
+    public void obrazki_smieciarki() { // ładowanie odpowiednich obrazków śmieciarki przy wciskaniu danego klawisza
 
         try{
 
@@ -52,7 +70,7 @@ public class Smieciarka extends Rzecz {
             e.printStackTrace();
         }
     }
-    public void update() {
+    public void update() {         // ustawienie poruszania się śmieciarki za pomocą klawiszy WASD
 
         if(keyH.W_pressed == true) {
             kierunek = "góra";
@@ -71,14 +89,14 @@ public class Smieciarka extends Rzecz {
 
         }
         kolizja_działa = false;
-        gp.kontroler.SprawdzPiksel(this);
+        gp.kontroler.SprawdzPiksel(this);    // sprawdzanie każdego pola pod względem kolizyjności w trakcie ruchu śmieciarki
 
         int Pojemnik_Znacznik = gp.kontroler.SprawdzPojemnik(this, true);
         Podnies_pojemnik(Pojemnik_Znacznik);
 
-        if(kolizja_działa == false){
+        if(kolizja_działa == false){             // zezwolenie na ruch śmieciarki jeżeli nie nastąpił kontakt pola kolizji śmieciarki z blokiem mającym cechę kolizji
 
-            switch(kierunek){
+            switch(kierunek){                     // zmiana położenia śmieciarki poprzez odjęcie od jej położenia wartości parametru "szybkość"
                 case "góra":
                     if(keyH.W_pressed == true) {
                         y -= szybkosc;
@@ -106,29 +124,43 @@ public class Smieciarka extends Rzecz {
     }
     public void Podnies_pojemnik (int i){
 
-        if(i != 999 ) {
+        if(i != 999 && (ile_na_pace < pojemnosc)) {
 
-            String Rodzaj_pojemnika = gp.Poj[i].nazwa;
+            String Rodzaj_pojemnika = gp.Poj[gp.aktualnaMapa][i].nazwa;
 
-            switch(Rodzaj_pojemnika){
+            switch(Rodzaj_pojemnika){        // podniesienie pojemnika polegające na usunięciu pojemnika z tablicy pojemników (w tym obrazu) oraz inkrementacja odpowiedniego licznika w zależnośći od tego, jaki pojemnik podniesiono
                 case "papier":
                     papier++;
-                    gp.Poj[i]= null;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
+                    ile_na_pace++;
                     break;
                 case "szklo":
                     szklo++;
-                    gp.Poj[i]= null;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
+                    ile_na_pace ++;
                     break;
                 case "plastik":
                     plastik++;
-                    gp.Poj[i]= null;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
+                    ile_na_pace++;
+                    break;
+                case "mieszane":
+                    mieszane++;
+                    gp.Poj[gp.aktualnaMapa][i]= null;
+                    ile_na_pace++;
                     break;
 
             }
+            if (((papier > 0) && (plastik >0) && (szklo>0))||((mieszane > 0) && (plastik >0) && (szklo>0))||((papier > 0) && (mieszane >0) && (szklo>0))||((papier > 0) && (plastik >0) && (mieszane>0))){
+                gp.ui.porażka_pomieszanie = true;   // sprawdzanie złamania reguły pomieszania śmieci we wszystkich możliwych kombinacjach
+                gp.StanGry = gp.StanPorażkaPomieszanie;
+            }
+
         }
 
+
     }
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2) {  // rysowanie ruchu śmieciarki
 
 
         BufferedImage image = null;

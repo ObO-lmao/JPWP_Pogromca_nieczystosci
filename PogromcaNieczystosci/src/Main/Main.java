@@ -2,6 +2,10 @@ package Main;
 
 import javax.swing.*;
 
+/**
+ * klasa main projektu
+ */
+
 public class Main {
 
     public static void main(String[] args) {
@@ -19,7 +23,7 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-        gamePanel.Rozmiesczenie_pojemnikow();
+        gamePanel.Ustawienie_gry();
         gamePanel.startGameThread();
     }
 }
